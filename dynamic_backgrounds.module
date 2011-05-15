@@ -1,7 +1,14 @@
 <?php
 function dynamic_backgrounds_init(){
-//drupal_set_message('<pre>'.print_r( , true).'</pre>');
+  if(arg(0) != 'admin' && variable_get('dynamic_backgrounds_random') == 'yes') {
+    dynamic_backgrounds_apply(dynamic_backgrounds_random());
+  }
+}
 
+function dynamic_backgrounds_apply($source, $orientation = "top middle" , $fixed = TRUE, $repeat = TRUE) { 
+    drupal_add_js("jQuery(document).ready(function () { $('".variable_get('dynamic_backgrounds_apply_rule','')."').css( 'background-image', 'url(".$source.")' ) });", 'inline');
+}
+function dynamic_backgrounds_random() {
   //This variable will store the selected file id
   $selected_fid = NULL;
   
@@ -51,17 +58,8 @@ function dynamic_backgrounds_init(){
     //Used to use a preset
     theme_imagecache(variable_get('dynamic_backgrounds_preset', 'default'), $file);
     $file = imagecache_create_url(variable_get('dynamic_backgrounds_preset', 'default'), $file);
-    drupal_add_js("jQuery(document).ready(function () { $('".variable_get('dynamic_backgrounds_apply_rule','')."').css( 'background-image', 'url(".$file.")' ) });", 'inline');
-  }else{
-    //use regular theme function
-    drupal_add_js("jQuery(document).ready(function () { $('".variable_get('dynamic_backgrounds_apply_rule','')."').css( 'background-image', 'url(/".$file.")' ) });", 'inline');
   }
-
-  /* DRUPAL 7 TODO
-  $field = field_info_field('field_bg');
-  drupal_set_message('<pre>'.print_r( $field, true).'</pre>');
-  */
-  
+  return $file;
 }
 
 function dynamic_backgrounds_perm() {
