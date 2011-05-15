@@ -1,6 +1,6 @@
 <?php
 function dynamic_backgrounds_init(){
-  if(arg(0) != 'admin' && variable_get('dynamic_backgrounds_random') == 'yes') {
+  if(arg(0) != 'admin' && variable_get('dynamic_backgrounds_random', '') == 'yes') {
     dynamic_backgrounds_apply(dynamic_backgrounds_random());
   }
 }
