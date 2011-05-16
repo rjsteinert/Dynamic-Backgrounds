@@ -5,9 +5,15 @@ function dynamic_backgrounds_init(){
   }
 }
 
-function dynamic_backgrounds_apply($source, $orientation = "top middle" , $fixed = TRUE, $repeat = TRUE) { 
-    drupal_add_js("jQuery(document).ready(function () { $('".variable_get('dynamic_backgrounds_apply_rule','')."').css( 'background-image', 'url(".$source.")' ) });", 'inline');
+function dynamic_backgrounds_apply($background_image, $background_color = "000000", $background_position = "center", $background_repeat = "no-repeat", $background_attachment = "fixed" ) {
+    $apply_rule = variable_get('dynamic_backgrounds_apply_rule','');
+    drupal_add_js("jQuery(document).ready(function () { $('". $apply_rule ."').css( 'background-image', 'url(" . $background_image . ")' ) });", 'inline');
+    drupal_add_js("jQuery(document).ready(function () { $('". $apply_rule ."').css( 'background-color', '" . $background_color . "' ) });", 'inline');
+    drupal_add_js("jQuery(document).ready(function () { $('". $apply_rule ."').css( 'background-position', '" . $background_position . "' ) });", 'inline');
+    drupal_add_js("jQuery(document).ready(function () { $('". $apply_rule ."').css( 'background-repeat', '" . $background_repeat . "' ) });", 'inline');
+    drupal_add_js("jQuery(document).ready(function () { $('". $apply_rule ."').css( 'background-attachment', '" . $background_attachment . "' ) });", 'inline');
 }
+
 function dynamic_backgrounds_random() {
   //This variable will store the selected file id
   $selected_fid = NULL;
